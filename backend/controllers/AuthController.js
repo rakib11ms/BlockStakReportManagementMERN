@@ -30,7 +30,7 @@ const register = async (req, res) => {
 
         if (duplicate_check) {
             return res.json({
-                status:400,
+                status: 400,
                 error: 'Email is already in use'
             });
         } else {
@@ -42,7 +42,7 @@ const register = async (req, res) => {
             // console.log('user',user)
             await user.save();
 
-     
+
             return res.json({
                 status: 200,
                 user: user,
@@ -75,7 +75,7 @@ const login = async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.json({ status:400,message: 'Invalid email or password' });
+            return res.json({ status: 400, message: 'Invalid email or password' });
         }
 
         const user_rel = await User.find({ email: email }).populate('profession').populate('role').exec();
@@ -100,7 +100,7 @@ const login = async (req, res) => {
 
         // Send the JWT and user information as a response
         return res.json({
-            status:200,
+            status: 200,
             user: user_rel,
             accessToken: accessToken,
             refreshToken: refreshToken,
@@ -129,9 +129,47 @@ const refreshTokenFunc = async (req, res) => {
         res.json({ status: 200, accessToken: accessToken });
     });
 }
+const allUsers = async (req, res) => {
+    try {
+        const all_users = await User.find({}).populate('profession').populate('role').exec();
+        // console.log('all users',all_users)
+        return res.json({
+            status: 200,
+            all_users: all_users
+        })
+    }
+    catch (error) {
+        return res.json({
+            status: 400,
+            message: "Error"
+        })
+    }
 
+}
 
-module.exports = { register, login, refreshTokenFunc };
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.json({ status: 400, message: 'User not found' });
+        }
+
+        // After successful deletion, you can fetch the updated list of users and send it as a response
+        const allUsers = await User.find({});
+        return res.json({ status: 200, message: 'User deleted', all_users: allUsers });
+    }
+    catch (error) {
+        console.error('Error deleting user:', error);
+        return res.status(500).json({ status: 500, message: 'Internal server error' });
+
+    }
+
+}
+
+module.exports = { register, login, refreshTokenFunc, allUsers, deleteUser };
 
 
 

@@ -38,7 +38,7 @@ function Sidebar() {
                     {/* <!-- Navigation --> */}
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <Link class="nav-link" to="#">
+                            <Link class="nav-link" to="/dashboard">
                                 <i class="bi bi-house"></i> Dashboard
                             </Link>
                         </li>
