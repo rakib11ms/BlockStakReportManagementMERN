@@ -19,9 +19,9 @@ router.post('/login',login);
 
 // router.post('/register',[body('name').notEmpty().withMessage('Name is required'),body('email').isEmail().withMessage('Invalid email').notEmpty().withMessage('Email is required')],register);
 
-router.get('/all-profession', getAllProfession);
-router.post('/refresh-token', refreshTokenFunc);
-router.get('/all-users', allUsers);
+router.get('/all-profession',verifyToken, getAllProfession);
+router.post('/refresh-token', verifyToken,refreshTokenFunc);
+router.get('/all-users', verifyToken,allUsers);
 router.delete('/delete-user/:id',deleteUser );
 router.post('/create-role', [body('name').notEmpty().withMessage("Role name is required").custom(async (value) => {
     const existingRole = await Role.findOne({ name: value });
@@ -40,9 +40,9 @@ router.post('/create-profession', [body('name').notEmpty().withMessage("Professi
     return true;
 })], createProfession)
 
-router.get('/admin-data', verifyToken, checkRole('admin'), (req, res) => {
-    res.json({ message: 'Admin data accessed (admin role).' });
-  });
+// router.get('/admin-data', verifyToken, checkRole('admin'), (req, res) => {
+//     res.json({ message: 'Admin data accessed (admin role).' });
+//   });
   
 
 module.exports = router;

@@ -15,90 +15,71 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
 // axios.defaults.withCredentials = true;
 
-// axios.interceptors.request.use(function (config) {
-//   const token = localStorage.getItem('auth_token');
-//   config.headers.Authorization = token ? `Bearer ${token}` : '';
+axios.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('accessToken');
+  config.headers.Authorization = token ? `Bearer ${token}` : '';
 
-//   return config;
-// }, null, { synchronous: true });
-
-
-// Function to refresh the access token using the refresh token
-const refreshToken = async () => {
-  try {
-    const refreshToken = localStorage.getItem('refresh_token');
-    if (!refreshToken) {
-      // Handle the case where there is no refresh token
-      throw new Error('No refresh token available');
-    }
-
-    // Make an API request to refresh the access token
-    const response = await axios.post('/refresh-token-endpoint', {
-      refreshToken: refreshToken,
-    });
-
-    // Store the new access token
-    const newAccessToken = response.data.access_token;
-    localStorage.setItem('auth_token', newAccessToken);
-
-    // Retry the original request with the new access token
-    const originalRequest = response.config;
-    originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-    return axios(originalRequest);
-  } catch (error) {
-    // Handle errors related to token refresh
-    // For example, you might want to log the user out or show an error message
-    console.error('Token refresh failed:', error);
-    throw error;
-  }
-};
+  return config;
+}, null, { synchronous: true });
 
 
+// Function to refresh the access token
+// async function refreshAccessToken() {
+//   try {
+//     // Make a request to your server to refresh the access token
+//     const response = await axios.post('/api/refresh-token');
+    
+//     // Update the access token in your application state or local storage
+//     const { accessToken } = response.data;
+//     localStorage.setItem('accessToken', accessToken);
 
+//     // Return the new access token
+//     return accessToken;
+//   } catch (error) {
+//     console.error('Error refreshing access token:', error);
+//     throw error;
+//   }
+// }
 
-// Axios interceptor to add the access token to requests
-axios.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('auth_token');
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+// // Axios interceptor to handle token expiration and refresh the token
+// axios.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-// Axios interceptor to handle token expiration and refresh
-axios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    const originalRequest = error.config;
-    const refreshToken = localStorage.getItem('refresh_token');
+//     // Check if the error status is 401 (Unauthorized) and the request is not a token refresh request
+//     if (error.response.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-    if (error.response.status === 401 && !originalRequest._retry && refreshToken) {
-      originalRequest._retry = true;
-      try {
-        const newResponse = await refreshToken();
-        return newResponse;
-      } catch (refreshError) {
-        // Handle the case where token refresh fails
-        // You might want to log the user out or show an error message
-        return Promise.reject(refreshError);
-      }
-    }
+//       try {
+//         // Refresh the access token
+//         const newAccessToken = await refreshAccessToken();
+        
+//         // Update the request with the new access token
+//         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        
+//         // Retry the original request
+//         return axios(originalRequest);
+//       } catch (refreshError) {
+//         // Handle refresh token error (e.g., redirect to login)
+//         console.error('Error refreshing access token:', refreshError);
+//         // You can handle the error here, e.g., redirect to login page
+//       }
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );
 
-
-
-
-
-
-
+// // Set up a timer to periodically refresh the access token
+// const refreshTokenInterval = setInterval(async () => {
+//   try {
+//     await refreshAccessToken();
+//     console.log('Access token refreshed');
+//   } catch (error) {
+//     console.error('Error refreshing access token:', error);
+//   }
+// }, 10000); // Refresh the token every 60 seconds (adjust as needed)
 
 
 

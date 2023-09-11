@@ -19,6 +19,7 @@ function Login() {
                 navigate('/dashboard');
                 localStorage.setItem('accessToken', res.data.accessToken);
                 localStorage.setItem('refreshToken', res.data.refreshToken);
+                localStorage.setItem('user_info',res.data.user)
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',

@@ -23,15 +23,15 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const checkRole = (role) => {
-  return (req, res, next) => {
-    // Check if the user has the required role
-    if (req.user && req.user.role === role) {
-      next();
-    } else {
-      return res.status(403).json({ message: 'Access denied. Insufficient role privileges.' });
-    }
-  };
-};
+// const checkRole = (role) => {
+//   return (req, res, next) => {
+//     // Check if the user has the required role
+//     if (req.user && req.user.role === role) {
+//       next();
+//     } else {
+//       return res.status(403).json({ message: 'Access denied. Insufficient role privileges.' });
+//     }
+//   };
+// };
 
-module.exports = { verifyToken, checkRole };
+module.exports = { verifyToken };

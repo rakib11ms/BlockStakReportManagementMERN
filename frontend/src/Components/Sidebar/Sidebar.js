@@ -48,11 +48,11 @@ function Sidebar() {
                             </Link>
                         </li>
                         <li class="nav-item">
-                            <Link class="nav-link" to="#">
+                            <Link class="nav-link" to="/create-user">
                                 <i class="bi bi-people"></i> Create Users
                             </Link>
                         </li>
-                        <li class="nav-item">
+                        {/* <li class="nav-item">
                             <Link class="nav-link" to="#">
                                 <i class="bi bi-bar-chart"></i> Analitycs
                             </Link>
@@ -67,7 +67,7 @@ function Sidebar() {
                             <Link class="nav-link" to="#">
                                 <i class="bi bi-bookmarks"></i> Collections
                             </Link>
-                        </li>
+                        </li> */}
                       
                     </ul>
                     {/* <!-- Divider --> */}

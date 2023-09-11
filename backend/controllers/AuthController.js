@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser');
+const Role = require('../models/Role');
 
 // const createToken = (user) => {
 //     return jwt.sign(user, process.env.SECRET, { expiresIn: '1h' })
@@ -19,7 +20,7 @@ function generateRefreshToken(user) {
 }
 
 const register = async (req, res) => {
-    const { name, email, password, phone, profession, favourite_colors, role } = req.body;
+    const { name, email, password, phone, profession, address,favourite_colors, role } = req.body;
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -34,10 +35,13 @@ const register = async (req, res) => {
                 error: 'Email is already in use'
             });
         } else {
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const role = await Role.findOne({ name: 'user' }).select('_id');
+            // console.log('role',role);
+         
+             const hashedPassword = await bcrypt.hash(password, 10);
 
             const user = new User({
-                name, email, password: hashedPassword, phone, profession, favourite_colors, role
+                name, email, password: hashedPassword, role:role._id,phone, address,profession, favourite_colors, role
             });
             // console.log('user',user)
             await user.save();

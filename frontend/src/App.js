@@ -8,6 +8,7 @@ import Dashbaord from './Page/Dashbaord';
 import ViewUser from './Page/Users/ViewUser';
 import Login from './Page/Login/Login';
 import Register from './Page/Register/Register';
+import CreateUser from './Page/Users/CreateUser';
 function App() {
 
   const [username, setUsername] = useState('');
@@ -51,6 +52,7 @@ function App() {
       <Routes>
         <Route path='/dashboard' element={<Dashbaord />}></Route>
         <Route path='/view-user' element={<ViewUser />}></Route>
+        <Route path='/create-user' element={<CreateUser />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
       </Routes>
