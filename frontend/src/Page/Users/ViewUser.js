@@ -18,10 +18,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
 
 function ViewUser() {
-// Retrieve the JSON string from localStorage
-const user_data = JSON.parse(localStorage.getItem('user_info'));
+  // Retrieve the JSON string from localStorage
+  const user_data = JSON.parse(localStorage.getItem('user_info'));
 
-console.log('User Info:', user_data);
+  console.log('User Info:', user_data);
 
 
   const navigate = useNavigate();
@@ -203,9 +203,9 @@ console.log('User Info:', user_data);
                   </TableHead>
                   <TableBody>
                     {
-                      allUsers.length<=0 && <><h4 className='text-center py-3'>No Data found</h4></>
+                      allUsers.length <= 0 && <><h4 className='text-center py-3'>No Data found</h4></>
                     }
-                    
+
                     {allUsers
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((user) => (
@@ -214,9 +214,14 @@ console.log('User Info:', user_data);
                             <TableCell key={column.id}>
                               {column.id === 'action' ? (
                                 <div className=''>
-                                  <IconButton color="primary" aria-label="Edit">
-                                    <EditIcon />
-                                  </IconButton>
+                                  <Link to={`/edit-user/${user._id}`}>
+
+                                    <IconButton color="primary" aria-label="Edit">
+                                      <EditIcon />
+
+                                    </IconButton>
+                                  </Link>
+
                                   <IconButton color="secondary" aria-label="Delete" onClick={() => handleDelete(user._id)}>
                                     <DeleteIcon />
                                   </IconButton>

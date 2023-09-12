@@ -9,6 +9,7 @@ import ViewUser from './Page/Users/ViewUser';
 import Login from './Page/Login/Login';
 import Register from './Page/Register/Register';
 import CreateUser from './Page/Users/CreateUser';
+import EditUser from './Page/Users/EditUser';
 function App() {
 
   axios.defaults.baseURL = 'http://localhost:9000/';
@@ -90,6 +91,7 @@ function App() {
         <Route path='/create-user' element={<CreateUser />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
+        <Route path='/edit-user/:id' element={<EditUser />}></Route>
       </Routes>
 
     </div>

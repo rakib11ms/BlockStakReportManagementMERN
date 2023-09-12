@@ -62,6 +62,7 @@ const register = async (req, res) => {
     }
 }
 
+
 const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -151,6 +152,27 @@ const allUsers = async (req, res) => {
 
 }
 
+const editUser=async (req,res)=>{
+
+    try{
+        const userId = req.params.id;
+        const find=await User.findOne({_id:userId}).populate('profession').populate('role').exec();
+        // console.log('oka',find);
+        return res.json({
+            status: 200,
+            edit_user: find
+        })
+
+    }
+    catch(error){
+        return res.json({
+            status: 400,
+            message:"Error"
+        })
+    }
+
+}
+
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -173,7 +195,7 @@ const deleteUser = async (req, res) => {
 
 }
 
-module.exports = { register, login, refreshTokenFunc, allUsers, deleteUser };
+module.exports = { register, login, refreshTokenFunc, allUsers,editUser, deleteUser };
 
 
 
