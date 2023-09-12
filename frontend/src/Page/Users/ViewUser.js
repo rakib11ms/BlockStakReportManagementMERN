@@ -18,6 +18,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
 
 function ViewUser() {
+// Retrieve the JSON string from localStorage
+const user_data = JSON.parse(localStorage.getItem('user_info'));
+
+console.log('User Info:', user_data);
+
 
   const navigate = useNavigate();
   const [allUsers, setAllUsers] = useState([]);

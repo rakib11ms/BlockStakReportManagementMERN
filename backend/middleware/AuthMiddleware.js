@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   // Get the token from the request headers
   const token = req.headers.authorization ? req.headers.authorization.replace('Bearer ', '') : null;
 
@@ -12,10 +13,11 @@ const verifyToken = (req, res, next) => {
     // Verify the token using your secret key (process.env.SECRET)
     const decoded = jwt.verify(token, process.env.SECRET);
 
+    const user =await User.findOne({ _id: decoded.userId }).populate('profession').populate('role').exec();
     // Attach the decoded token payload to the request object
-    req.user = decoded;
-    
-    console.log('req user',req.user)
+    req.user = user;
+
+    console.log('req user', req.user)
 
     next();
   } catch (err) {
@@ -23,15 +25,17 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// const checkRole = (role) => {
-//   return (req, res, next) => {
-//     // Check if the user has the required role
-//     if (req.user && req.user.role === role) {
-//       next();
-//     } else {
-//       return res.status(403).json({ message: 'Access denied. Insufficient role privileges.' });
-//     }
-//   };
-// };
+const checkRole = (role) => {
+  // console.log('r',role)
+  return (req, res, next) => {
+    // Check if the user has the required role
+    // console.log('req role', req.user.role.name)
+    if (req.user.role.name === role) {
+    next();
+    } else {
+      return res.status(403).json({ message: 'Access denied. Insufficient role privileges.' });
+    }
+  };
+};
 
-module.exports = { verifyToken };
+module.exports = { verifyToken, checkRole };

@@ -9,77 +9,61 @@ import axios from 'axios';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
-axios.defaults.baseURL = 'http://localhost:9000/';
+// axios.defaults.baseURL = 'http://localhost:9000/';
 
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.post['Accept'] = 'application/json';
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.headers.post['Accept'] = 'application/json';
+
+// const [refreshTokenRender, setRefreshTokenRender] = useState('');
+// console.log('check',refreshTokenRender);
+
+
 // axios.defaults.withCredentials = true;
 
-axios.interceptors.request.use(function (config) {
-  const token = localStorage.getItem('accessToken');
-  config.headers.Authorization = token ? `Bearer ${token}` : '';
+// axios.interceptors.request.use(function (config) {
+//   // console.log('hello',config)
+//   const token = localStorage.getItem('accessToken');
+//   config.headers.Authorization = token ? `Bearer ${token}` : '';
 
-  return config;
-}, null, { synchronous: true });
+//   return config;
+// }, null, { synchronous: true });
 
 
-// Function to refresh the access token
-// async function refreshAccessToken() {
-//   try {
-//     // Make a request to your server to refresh the access token
-//     const response = await axios.post('/api/refresh-token');
-    
-//     // Update the access token in your application state or local storage
-//     const { accessToken } = response.data;
-//     localStorage.setItem('accessToken', accessToken);
 
-//     // Return the new access token
-//     return accessToken;
-//   } catch (error) {
-//     console.error('Error refreshing access token:', error);
-//     throw error;
-//   }
-// }
 
-// // Axios interceptor to handle token expiration and refresh the token
-// axios.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
+// useEffect(() => {
+//   async function post() {
+//     try {
+//       const response = await axios.post('/api/refresh-token');
 
-//     // Check if the error status is 401 (Unauthorized) and the request is not a token refresh request
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
+//       // Update the access token in your application state or local storage
+//       const { accessToken } = response.data;
+//       localStorage.setItem('accessToken', accessToken);
 
-//       try {
-//         // Refresh the access token
-//         const newAccessToken = await refreshAccessToken();
-        
-//         // Update the request with the new access token
-//         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        
-//         // Retry the original request
-//         return axios(originalRequest);
-//       } catch (refreshError) {
-//         // Handle refresh token error (e.g., redirect to login)
-//         console.error('Error refreshing access token:', refreshError);
-//         // You can handle the error here, e.g., redirect to login page
-//       }
+//       // Return the new access token
+//       return accessToken;
+//     } catch (error) {
+//       console.error('Error refreshing access token:', error);
+//       throw error;
 //     }
-
-//     return Promise.reject(error);
 //   }
-// );
+//   post();
+// }, [refreshTokenRender])
 
-// // Set up a timer to periodically refresh the access token
-// const refreshTokenInterval = setInterval(async () => {
-//   try {
-//     await refreshAccessToken();
-//     console.log('Access token refreshed');
-//   } catch (error) {
-//     console.error('Error refreshing access token:', error);
+
+
+// axios.interceptors.response.use((response) => {
+//   return response;
+
+//   console.log('hello2', response)
+// }, (error) => {
+//   console.log('Response error:', error.response.status);
+//   if (error.response.status == 401) {
+//     setRefreshTokenRender(res.data)
 //   }
-// }, 10000); // Refresh the token every 60 seconds (adjust as needed)
+
+// })
+
 
 
 

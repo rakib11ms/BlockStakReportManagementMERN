@@ -11,12 +11,12 @@ const Role = require('../models/Role');
 
 // Generate an access token
 function generateAccessToken(user) {
-    return jwt.sign({ userId: user._id }, process.env.SECRET, { expiresIn: '30s' });
+    return jwt.sign({ userId: user._id }, process.env.SECRET, { expiresIn: '1h' });
 }
 
 // Generate a refresh token
 function generateRefreshToken(user) {
-    return jwt.sign({ userId: user._id }, process.env.SECRET, { expiresIn: '1m' });
+    return jwt.sign({ userId: user._id }, process.env.SECRET, { expiresIn: '7d' });
 }
 
 const register = async (req, res) => {

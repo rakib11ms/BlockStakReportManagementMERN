@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
+
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,10 +18,12 @@ function Login() {
         axios.post(`/api/login`, submitData).then(res => {
             // console.log('res', res)
             if (res.data.status == 200) {
-                navigate('/dashboard');
+                navigate('/view-user');
                 localStorage.setItem('accessToken', res.data.accessToken);
-                localStorage.setItem('refreshToken', res.data.refreshToken);
-                localStorage.setItem('user_info',res.data.user)
+                Cookies.set('refreshToken', res.data.refreshToken);
+
+                // localStorage.setItem('refreshToken', res.data.refreshToken);
+                localStorage.setItem('user_info', JSON.stringify(res.data.user))
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
