@@ -77,7 +77,7 @@ function App() {
         <Route path='/dashboard' element={<Dashbaord />}></Route>
         <Route path='/view-user' element={<ViewUser />}></Route>
         {
-          user_data[0].role.name == 'admin' && <>
+          user_data!==null && user_data[0].role.name == 'admin' && <>
 
             <Route path='/create-user' element={<CreateUser />}></Route>
             <Route path='/edit-user/:id' element={<EditUser />}></Route>
