@@ -20,7 +20,7 @@ function generateRefreshToken(user) {
 }
 
 const register = async (req, res) => {
-    const { name, email, password, phone, profession, address,favourite_colors, role } = req.body;
+    const { name, email, password, phone, profession, address, favourite_colors, role } = req.body;
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -37,11 +37,11 @@ const register = async (req, res) => {
         } else {
             const role = await Role.findOne({ name: 'user' }).select('_id');
             // console.log('role',role);
-         
-             const hashedPassword = await bcrypt.hash(password, 10);
+
+            const hashedPassword = await bcrypt.hash(password, 10);
 
             const user = new User({
-                name, email, password: hashedPassword, role:role._id,phone, address,profession, favourite_colors, role
+                name, email, password: hashedPassword, role: role._id, phone, address, profession, favourite_colors, role
             });
             // console.log('user',user)
             await user.save();
@@ -136,7 +136,7 @@ const refreshTokenFunc = async (req, res) => {
 }
 const allUsers = async (req, res) => {
     try {
-        const all_users = await User.find({}).populate('profession').populate('role').exec();
+        const all_users = await User.find({}).populate('profession').populate('role').sort({ _id: -1 }).exec();
         // console.log('all users',all_users)
         return res.json({
             status: 200,
@@ -152,11 +152,11 @@ const allUsers = async (req, res) => {
 
 }
 
-const editUser=async (req,res)=>{
+const editUser = async (req, res) => {
 
-    try{
+    try {
         const userId = req.params.id;
-        const find=await User.findOne({_id:userId}).populate('profession').populate('role').exec();
+        const find = await User.findOne({ _id: userId }).populate('profession').populate('role').exec();
         // console.log('oka',find);
         return res.json({
             status: 200,
@@ -164,14 +164,57 @@ const editUser=async (req,res)=>{
         })
 
     }
-    catch(error){
+    catch (error) {
         return res.json({
             status: 400,
-            message:"Error"
+            message: "Error"
         })
     }
 
 }
+const updateUser = async (req, res) => {
+    const { name, email, password, phone, profession, address, favourite_colors, role } = req.body;
+    const userId = req.params.id; // Assuming you have a route parameter for the user's ID.
+
+    try {
+        // Check if the user with the provided ID exists.
+        const existingUser = await User.findById(userId);
+
+        if (!existingUser) {
+            return res.status(404).json({
+                errors: [{ msg: 'User not found' }]
+            });
+        }
+
+        // Update user properties if provided, otherwise, keep the existing values.
+        if (name) existingUser.name = name;
+        if (email) existingUser.email = email;
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            existingUser.password = hashedPassword;
+        }
+        if (phone) existingUser.phone = phone;
+        if (address) existingUser.address = address;
+        if (profession) existingUser.profession = profession;
+        if (favourite_colors) existingUser.favourite_colors = favourite_colors;
+        if (role) existingUser.role = role; // Assuming you want to update the user's role.
+
+        // Save the updated user.
+        await existingUser.save();
+
+        return res.status(200).json({
+            status: 200,
+            user: existingUser,
+            message: "User updated successfully"
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            errors: [{ msg: 'Internal Server Error' }]
+        });
+    }
+}
+
 
 const deleteUser = async (req, res) => {
     try {
@@ -195,7 +238,7 @@ const deleteUser = async (req, res) => {
 
 }
 
-module.exports = { register, login, refreshTokenFunc, allUsers,editUser, deleteUser };
+module.exports = { register, login, refreshTokenFunc, allUsers, editUser, updateUser, deleteUser };
 
 
 

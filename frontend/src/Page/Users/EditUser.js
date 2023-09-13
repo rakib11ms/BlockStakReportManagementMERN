@@ -126,14 +126,14 @@ function EditUser() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post(`/api/register`, submitData).then(res => {
+        axios.post(`/api/update-user/${id}`, submitData).then(res => {
             console.log('res', res)
             if (res.data.status == 200) {
                 navigate('/view-user')
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
-                    text: 'Registration successful.',
+                    text: 'Update successful.',
                     showConfirmButton: false,
                     timer: 800 // This will close the alert after 2 seconds
                 });
@@ -163,7 +163,7 @@ function EditUser() {
             <div className='card-body bg-white'>
                 <div className='d-flex justify-content-between '>
                     <div>
-                        <h3>Create User</h3>
+                        <h3>Update User</h3>
 
                     </div>
                     <div className="">
@@ -192,7 +192,7 @@ function EditUser() {
                                         <div class="input-group mb-3">
                                             <div class="input-group-text"><i class="bi bi-envelope"></i>
                                             </div>
-                                            <input type="text" class="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" />
+                                            <input type="text" class="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" disabled />
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -237,25 +237,25 @@ function EditUser() {
 
                                         <div class="d-flex my-2 mb-3">
                                             <div class="form-check mx-2">
-                                                <input class="form-check-input" type="checkbox" value="black" id="flexCheckDefault" onChange={handleFavColorChange} checked={favourite_colors.includes('black')?true:false} />
+                                                <input class="form-check-input" type="checkbox" value="black" id="flexCheckDefault" onChange={handleFavColorChange} checked={favouriteColors.includes('black') ? true : false} />
                                                 <label class="form-check-label" for="flexCheckDefault">
                                                     Black
                                                 </label>
                                             </div>
                                             <div class="form-check mx-2">
-                                                <input class="form-check-input" type="checkbox" value="red" id="flexCheckDefault" onChange={handleFavColorChange} checked={favourite_colors.includes('black')?true:false} />
+                                                <input class="form-check-input" type="checkbox" value="red" id="flexCheckDefault" onChange={handleFavColorChange} checked={favouriteColors.includes('red') ? true : false} />
                                                 <label class="form-check-label" for="flexCheckDefault">
                                                     Red
                                                 </label>
                                             </div>
                                             <div class="form-check mx-2">
-                                                <input class="form-check-input" type="checkbox" value="white" id="flexCheckDefault" onChange={handleFavColorChange} checked={favourite_colors.includes('black')?true:false} />
+                                                <input class="form-check-input" type="checkbox" value="white" id="flexCheckDefault" onChange={handleFavColorChange} checked={favouriteColors.includes('white') ? true : false} />
                                                 <label class="form-check-label" for="flexCheckDefault">
                                                     White
                                                 </label>
                                             </div>
                                             <div class="form-check mx-2">
-                                                <input class="form-check-input" type="checkbox" value="others" id="flexCheckDefault" onChange={handleFavColorChange} checked={favourite_colors.includes('black')?true:false} />
+                                                <input class="form-check-input" type="checkbox" value="others" id="flexCheckDefault" onChange={handleFavColorChange} checked={favouriteColors.includes('others') ? true : false} />
                                                 <label class="form-check-label" for="flexCheckDefault">
                                                     Others
                                                 </label>
@@ -272,7 +272,7 @@ function EditUser() {
                                     </div>
                                     <div class="col-12 d-flex justify-content-between align-items-center">
 
-                                        <button type="submit" class="btn btn-primary px-5 py-2 float-end mt-4">Create User</button>
+                                        <button type="submit" class="btn btn-primary px-5 py-2 float-end mt-4">Update User</button>
 
                                     </div>
                                 </div>

@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 function Sidebar() {
+    const user_data = JSON.parse(localStorage.getItem('user_info'));
+
+    console.log('User Info:', user_data);
     return (
         <nav class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg" id="navbarVertical">
             <div class="container-fluid">
@@ -47,11 +50,14 @@ function Sidebar() {
                                 <i class="bi bi-people"></i> View Users
                             </Link>
                         </li>
-                        <li class="nav-item">
-                            <Link class="nav-link" to="/create-user">
-                                <i class="bi bi-people"></i> Create Users
-                            </Link>
-                        </li>
+                        {
+                            user_data[0].role.name == 'admin' && <li class="nav-item">
+                                <Link class="nav-link" to="/create-user">
+                                    <i class="bi bi-people"></i> Create Users
+                                </Link>
+                            </li>
+                        }
+
                         {/* <li class="nav-item">
                             <Link class="nav-link" to="#">
                                 <i class="bi bi-bar-chart"></i> Analitycs
@@ -68,7 +74,7 @@ function Sidebar() {
                                 <i class="bi bi-bookmarks"></i> Collections
                             </Link>
                         </li> */}
-                      
+
                     </ul>
                     {/* <!-- Divider --> */}
                     <hr class="navbar-divider my-5 opacity-20" />

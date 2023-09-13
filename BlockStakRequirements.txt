@@ -1,0 +1,14 @@
+Report management system
+
+user types-> admins,users
+admins -> create,view,edit,delete (reports)
+users->view (reports)
+
+registration (name,address,phone,email,profession,favourite colors)->with role 
+jwt cookies (one hour expire with refresh if session is active)
+
+users lists->(access)
+
+github repo: BlockStakReportManagementMERN
+mention challenges 
+

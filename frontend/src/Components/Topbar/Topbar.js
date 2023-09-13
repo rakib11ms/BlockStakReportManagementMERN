@@ -9,6 +9,7 @@ function Topbar() {
     Cookies.remove('refreshToken');
     // Clear access token from local storage
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('user_info');
     // Navigate to the login route
     navigate('/login');
   };

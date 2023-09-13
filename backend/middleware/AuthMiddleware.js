@@ -25,13 +25,13 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-const checkRole = (role) => {
-  // console.log('r',role)
+
+
+const checkRole = (roles) => {
   return (req, res, next) => {
-    // Check if the user has the required role
-    // console.log('req role', req.user.role.name)
-    if (req.user.role.name === role) {
-    next();
+    // Check if the user has one of the required roles
+    if (roles.includes(req.user.role.name)) {
+      next();
     } else {
       return res.status(403).json({ message: 'Access denied. Insufficient role privileges.' });
     }

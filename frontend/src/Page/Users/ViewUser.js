@@ -167,11 +167,14 @@ function ViewUser() {
 
           </div>
           <div className="">
-            <button className='btn btn-light border py-2'>
+            {
+              user_data[0].role.name=='admin' &&   <button className='btn btn-light border py-2'>
               <Link to="/create-user">
                 Create
               </Link>
             </button>
+            }
+ 
           </div>
         </div>
         <div className='my-3  '>
@@ -213,7 +216,9 @@ function ViewUser() {
                           {columns.map((column) => (
                             <TableCell key={column.id}>
                               {column.id === 'action' ? (
-                                <div className=''>
+                                
+                                  user_data[0].role.name=='admin' && 
+                                        <div className=''>
                                   <Link to={`/edit-user/${user._id}`}>
 
                                     <IconButton color="primary" aria-label="Edit">
@@ -226,6 +231,8 @@ function ViewUser() {
                                     <DeleteIcon />
                                   </IconButton>
                                 </div>
+                                
+                          
                               ) : (
                                 user[column.id]
                               )}

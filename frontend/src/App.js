@@ -18,19 +18,6 @@ function App() {
   axios.defaults.headers.post['Accept'] = 'application/json';
 
 
-
-   
-  // axios.post('/api/refresh-token', {}, { withCredentials: true })
-  // .then((res) => {
-  //   console.log('Response data:', res.data);
-  // })
-  // .catch((error) => {
-  //   console.error('Error:', error);
-  // })
-
-
-  // axios.defaults.withCredentials = true;
-
   axios.interceptors.request.use(function (config) {
     // console.log('hello', config)
     const token = localStorage.getItem('accessToken');
@@ -78,6 +65,7 @@ function App() {
 
 
 
+  const user_data = JSON.parse(localStorage.getItem('user_info'));
 
 
 
@@ -88,10 +76,16 @@ function App() {
 
         <Route path='/dashboard' element={<Dashbaord />}></Route>
         <Route path='/view-user' element={<ViewUser />}></Route>
-        <Route path='/create-user' element={<CreateUser />}></Route>
+        {
+          user_data[0].role.name == 'admin' && <>
+
+            <Route path='/create-user' element={<CreateUser />}></Route>
+            <Route path='/edit-user/:id' element={<EditUser />}></Route>
+          </>
+
+        }
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
-        <Route path='/edit-user/:id' element={<EditUser />}></Route>
       </Routes>
 
     </div>
